@@ -4,7 +4,7 @@
   <title><![CDATA[Fn. BLOG]]></title>
   <link href="http://fnjnkn.github.io/atom.xml" rel="self"/>
   <link href="http://fnjnkn.github.io/"/>
-  <updated>2013-09-10T14:25:54+08:00</updated>
+  <updated>2013-09-10T14:33:29+08:00</updated>
   <id>http://fnjnkn.github.io/</id>
   <author>
     <name><![CDATA[Fn.J.K]]></name>
@@ -12,5 +12,74 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[获取一个NSDictionary，装有自身的所有属性和值]]></title>
+    <link href="http://fnjnkn.github.io/blog/2013/09/10/nsobject-property/"/>
+    <updated>2013-09-10T14:27:00+08:00</updated>
+    <id>http://fnjnkn.github.io/blog/2013/09/10/nsobject-property</id>
+    <content type="html"><![CDATA[<blockquote><p>近期做项目需要用到一个能返回自身所有属性的方法<br/>查了下资料发现objc/runtime.h可以实现<br/>不过必须是使用@synthesize定义的属性<br/>具体的代码如下：</p><footer><strong>NSObject</strong> <cite>获取NSObject的所有属性</cite></footer></blockquote>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nf">properties</span><span class="p">{</span>
+</span><span class='line'>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">outCount</span><span class="p">,</span><span class="n">index</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">objc_property_t</span><span class="o">*</span> <span class="n">properties_t</span> <span class="o">=</span> <span class="n">class_copyPropertyList</span><span class="p">([</span><span class="n">self</span> <span class="n">class</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">outCount</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="n">resultDictionary</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableDictionary</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">outCount</span> <span class="p">;</span> <span class="n">index</span> <span class="o">++</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">objc_property_t</span> <span class="n">t_property</span> <span class="o">=</span> <span class="n">properties_t</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSString</span> <span class="o">*</span><span class="n">attributeName</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithUTF8String:</span><span class="n">property_getName</span><span class="p">(</span><span class="n">t_property</span><span class="p">)];</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="n">class_respondsToSelector</span><span class="p">([</span><span class="n">self</span> <span class="n">class</span><span class="p">],</span> <span class="n">NSSelectorFromString</span><span class="p">(</span><span class="n">attributeName</span><span class="p">))){</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">resultDictionary</span> <span class="nl">setObject:</span><span class="p">[</span><span class="n">self</span> <span class="nl">valueForKey:</span><span class="n">attributeName</span><span class="p">]</span>
+</span><span class='line'>                                 <span class="nl">forKey:</span><span class="n">attributeName</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithDictionary:</span><span class="n">resultDictionary</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">resultDictionary</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setDataWithDictionary:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dataDictionary</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">dataDictionary</span> <span class="nl">enumerateKeysAndObjectsUsingBlock:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">key</span><span class="p">,</span> <span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="n">class_respondsToSelector</span><span class="p">([</span><span class="n">self</span> <span class="n">class</span><span class="p">],</span> <span class="n">NSSelectorFromString</span><span class="p">(</span><span class="n">key</span><span class="p">))){</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">self</span> <span class="nl">setValue:</span><span class="n">obj</span> <span class="nl">forKey:</span><span class="n">key</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>            <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Property:%@ can&#39;t set the value&quot;</span><span class="p">,</span><span class="n">key</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
 </feed>
