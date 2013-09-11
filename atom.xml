@@ -4,7 +4,7 @@
   <title><![CDATA[Fn. BLOG]]></title>
   <link href="http://fnjnkn.github.io/atom.xml" rel="self"/>
   <link href="http://fnjnkn.github.io/"/>
-  <updated>2013-09-10T14:33:29+08:00</updated>
+  <updated>2013-09-11T11:10:44+08:00</updated>
   <id>http://fnjnkn.github.io/</id>
   <author>
     <name><![CDATA[Fn.J.K]]></name>
@@ -18,9 +18,13 @@
     <link href="http://fnjnkn.github.io/blog/2013/09/10/nsobject-property/"/>
     <updated>2013-09-10T14:27:00+08:00</updated>
     <id>http://fnjnkn.github.io/blog/2013/09/10/nsobject-property</id>
-    <content type="html"><![CDATA[<blockquote><p>近期做项目需要用到一个能返回自身所有属性的方法<br/>查了下资料发现objc/runtime.h可以实现<br/>不过必须是使用@synthesize定义的属性<br/>具体的代码如下：</p><footer><strong>NSObject</strong> <cite>获取NSObject的所有属性</cite></footer></blockquote>
-
-
+    <content type="html"><![CDATA[<ul>
+<li>NSObject , 获取NSObject的所有属性
+近期做项目需要用到一个能返回自身所有属性的方法
+查了下资料发现objc/runtime.h可以实现
+不过必须是使用@synthesize定义的属性
+具体的代码如下：</li>
+</ul>
 
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
