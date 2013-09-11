@@ -3,15 +3,14 @@ layout: post
 title: "获取一个NSDictionary，装有自身的所有属性和值"
 date: 2013-09-10 14:27
 comments: true
-categories: 
+categories: iOS
 ---
 
-{% blockquote NSObject , 获取NSObject的所有属性 %}
+- NSObject , 获取NSObject的所有属性
 近期做项目需要用到一个能返回自身所有属性的方法
 查了下资料发现objc/runtime.h可以实现
 不过必须是使用@synthesize定义的属性
 具体的代码如下：
-{% endblockquote %}
 
 {% codeblock lang:objc %}
 
