@@ -98,3 +98,10 @@ google_analytics_tracking_id:
 
 # Facebook Like
 facebook_like: false
+
+# Sina Weibo
+weibo_share: true
+
+# Duoshuo Comments
+duoshuo_comments: true
+duoshuo_short_name: fnjnkn
